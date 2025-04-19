@@ -16,8 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      title: 'Cinemapedia',
       routerConfig: appRouter,
-      showSemanticsDebugger: true,
+      debugShowCheckedModeBanner: true,
+      // showSemanticsDebugger: true,
       theme: AppTheme().getTheme(),
     );
   }

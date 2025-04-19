@@ -31,13 +31,20 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-    return ListView.builder(
-      itemCount: nowPlayingMovies.length,
-      itemBuilder: (context, index) {
-        final movie = nowPlayingMovies[index];
 
-        return Text(movie.title);
-      },
+    return Scaffold(
+      appBar: AppBar(title: const Text('Probar')),
+      body:
+          nowPlayingMovies.isEmpty
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                itemCount: nowPlayingMovies.length,
+                itemBuilder: (context, index) {
+                  final movie = nowPlayingMovies[index];
+
+                  return ListTile(title: Text(movie.title));
+                },
+              ),
     );
   }
 }
