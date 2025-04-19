@@ -1,4 +1,7 @@
 import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart';
+import 'package:cinemapedia/presentation/providers/movies/movies_slideshow_provider.dart';
+import 'package:cinemapedia/presentation/widgets/movies/movies_slideshow.dart';
+import 'package:cinemapedia/presentation/widgets/shared/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,21 +33,12 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final moviesSlideshow = ref.watch(moviesSlideshowProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Probar')),
-      body:
-          nowPlayingMovies.isEmpty
-              ? Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                itemCount: nowPlayingMovies.length,
-                itemBuilder: (context, index) {
-                  final movie = nowPlayingMovies[index];
-
-                  return ListTile(title: Text(movie.title));
-                },
-              ),
+      body: Column(
+        children: [CustomAppBar(), MoviesSlideshow(movies: moviesSlideshow)],
+      ),
     );
   }
 }
