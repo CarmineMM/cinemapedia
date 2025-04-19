@@ -2,6 +2,7 @@ import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart'
 import 'package:cinemapedia/presentation/providers/movies/movies_slideshow_provider.dart';
 import 'package:cinemapedia/presentation/widgets/movies/movies_slideshow.dart';
 import 'package:cinemapedia/presentation/widgets/shared/custom_appbar.dart';
+import 'package:cinemapedia/presentation/widgets/shared/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +14,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _HomeView();
+    return Scaffold(
+      body: _HomeView(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
+    );
   }
 }
 
@@ -35,10 +39,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   Widget build(BuildContext context) {
     final moviesSlideshow = ref.watch(moviesSlideshowProvider);
 
-    return Scaffold(
-      body: Column(
-        children: [CustomAppBar(), MoviesSlideshow(movies: moviesSlideshow)],
-      ),
+    return Column(
+      children: [CustomAppBar(), MoviesSlideshow(movies: moviesSlideshow)],
     );
   }
 }
