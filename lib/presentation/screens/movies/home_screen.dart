@@ -8,6 +8,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('hola!!');
+    return const Text('para ver!!');
   }
 }
