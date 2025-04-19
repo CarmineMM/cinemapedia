@@ -1,5 +1,6 @@
 import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart';
 import 'package:cinemapedia/presentation/providers/movies/movies_slideshow_provider.dart';
+import 'package:cinemapedia/presentation/widgets/movies/movies_horizontal_list_view.dart';
 import 'package:cinemapedia/presentation/widgets/movies/movies_slideshow.dart';
 import 'package:cinemapedia/presentation/widgets/shared/custom_appbar.dart';
 import 'package:cinemapedia/presentation/widgets/shared/custom_bottom_navigation_bar.dart';
@@ -38,9 +39,18 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   Widget build(BuildContext context) {
     final moviesSlideshow = ref.watch(moviesSlideshowProvider);
+    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
 
     return Column(
-      children: [CustomAppBar(), MoviesSlideshow(movies: moviesSlideshow)],
+      children: [
+        CustomAppBar(),
+        MoviesSlideshow(movies: moviesSlideshow),
+        MoviesHorizontalListView(
+          movies: nowPlayingMovies,
+          label: 'En cines',
+          badge: 'Lunes 20',
+        ),
+      ],
     );
   }
 }
