@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MovieScreen extends StatelessWidget {
-  static const routePath = '/movie/:id';
+  static const routePath = 'movie/:id';
   static const routeName = 'movie.find';
 
   final String movieId;
