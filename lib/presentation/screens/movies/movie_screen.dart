@@ -123,15 +123,17 @@ class _MovieDetails extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(movie.posterPath, width: size.width * 0.3),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 15),
               SizedBox(
-                width: (size.width - 40) * 0.7,
+                width: (size.width - 50) * 0.7,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       movie.title,
@@ -151,11 +153,11 @@ class _MovieDetails extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Wrap(
             children: [
-              ...movie.genreIds.map(
+              ...movie.genres.map(
                 (gender) => Container(
                   margin: const EdgeInsets.only(right: 10),
                   child: Chip(
-                    label: Text(gender.toString()),
+                    label: Text(gender.name),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
