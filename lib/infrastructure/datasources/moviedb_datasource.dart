@@ -40,8 +40,8 @@ class MovieDBDataSource extends MoviesDatasource {
 
       return _jsonToMovies(response.data);
     } catch (e) {
-      print('Error $e');
-      print('Headers ${Environment.theMovieDdKey}');
+      // print('Error $e');
+      // print('Headers ${Environment.theMovieDdKey}');
       return [];
     }
   }
