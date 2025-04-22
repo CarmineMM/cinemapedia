@@ -34,24 +34,82 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
     final moviesSlideshow = ref.watch(moviesSlideshowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
 
-    return Column(
-      children: [
-        CustomAppBar(),
-        MoviesSlideshow(movies: moviesSlideshow),
-        const SizedBox(height: 30),
-        MoviesHorizontalListView(
-          movies: nowPlayingMovies,
-          label: 'En cines',
-          badge: 'Lunes 20',
-          loadNextPage:
-              () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          floating: true,
+          elevation: 1,
+          title: CustomAppBar(),
+          // flexibleSpace: FlexibleSpaceBar(title: ),
+        ),
+
+        SliverList(
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return Column(
+              children: [
+                MoviesSlideshow(movies: moviesSlideshow),
+                const SizedBox(height: 30),
+
+                MoviesHorizontalListView(
+                  movies: nowPlayingMovies,
+                  label: 'En cines',
+                  badge: 'Lunes 20',
+                  loadNextPage:
+                      () =>
+                          ref
+                              .read(nowPlayingMoviesProvider.notifier)
+                              .loadNextPage(),
+                ),
+
+                MoviesHorizontalListView(
+                  movies: nowPlayingMovies,
+                  label: 'Próximamente',
+                  badge: 'Este mes',
+                  loadNextPage:
+                      () =>
+                          ref
+                              .read(nowPlayingMoviesProvider.notifier)
+                              .loadNextPage(),
+                ),
+
+                MoviesHorizontalListView(
+                  movies: popularMovies,
+                  label: 'Populares',
+                  // badge: 'Este mes',
+                  loadNextPage:
+                      () =>
+                          ref
+                              .read(popularMoviesProvider.notifier)
+                              .loadNextPage(),
+                ),
+
+                MoviesHorizontalListView(
+                  movies: nowPlayingMovies,
+                  label: 'Mejor calificados',
+                  badge: 'Desde siempre',
+                  loadNextPage:
+                      () =>
+                          ref
+                              .read(nowPlayingMoviesProvider.notifier)
+                              .loadNextPage(),
+                ),
+
+                const SizedBox(height: 30),
+              ],
+            );
+          }, childCount: 1),
         ),
       ],
     );
