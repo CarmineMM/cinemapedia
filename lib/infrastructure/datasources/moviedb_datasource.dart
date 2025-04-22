@@ -2,6 +2,7 @@ import 'package:cinemapedia/config/constants/environment.dart';
 import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
+import 'package:cinemapedia/infrastructure/models/moviedb/movie_details.dart';
 import 'package:cinemapedia/infrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
@@ -95,11 +96,9 @@ class MovieDBDataSource extends MoviesDatasource {
       throw Exception('Movie with id: $id not found');
     }
 
-    final movieDbResponse = MovieDbResponse.fromJson(response.data);
+    final movieDetails = MovieDetails.fromJson(response.data);
 
-    final Movie movie = MovieMapper.movieDBToEntity(
-      movieDbResponse.results.first,
-    );
+    final Movie movie = MovieMapper.movieDetailToEntity(movieDetails);
 
     return movie;
   }

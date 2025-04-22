@@ -73,9 +73,14 @@ class MovieDetails {
     overview: json["overview"],
     popularity: json["popularity"]?.toDouble(),
     posterPath: json["poster_path"],
-    productionCompanies: List<ProductionCompany>.from(
-      json["production_companies"].map((x) => ProductionCompany.fromJson(x)),
-    ),
+    productionCompanies:
+        json["production_companies"] == null
+            ? []
+            : List<ProductionCompany>.from(
+              json["production_companies"].map(
+                (x) => ProductionCompany.fromJson(x),
+              ),
+            ),
     productionCountries: List<ProductionCountry>.from(
       json["production_countries"].map((x) => ProductionCountry.fromJson(x)),
     ),
@@ -173,13 +178,13 @@ class Genre {
 
 class ProductionCompany {
   final int id;
-  final String logoPath;
+  final String? logoPath;
   final String name;
   final String originCountry;
 
   ProductionCompany({
     required this.id,
-    required this.logoPath,
+    this.logoPath,
     required this.name,
     required this.originCountry,
   });
