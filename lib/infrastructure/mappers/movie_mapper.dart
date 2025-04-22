@@ -37,7 +37,7 @@ class MovieMapper {
         moviedb.backdropPath != ''
             ? '$imageBasePath/${moviedb.backdropPath}'
             : notFoundImage,
-    genreIds: moviedb.genres.map((x) => x.id).toList(),
+    genres: moviedb.genres,
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
     originalTitle: moviedb.originalTitle,

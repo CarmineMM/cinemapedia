@@ -1,7 +1,10 @@
+import 'package:cinemapedia/infrastructure/models/moviedb/movie_details.dart';
+
 class Movie {
   final bool adult;
   final String backdropPath;
   final List<int> genreIds;
+  final List<Genre> genres;
   final int id;
   final String originalLanguage;
   final String originalTitle;
@@ -17,7 +20,8 @@ class Movie {
   Movie({
     required this.adult,
     required this.backdropPath,
-    required this.genreIds,
+    this.genreIds = const [],
+    this.genres = const [],
     required this.id,
     required this.originalLanguage,
     required this.originalTitle,

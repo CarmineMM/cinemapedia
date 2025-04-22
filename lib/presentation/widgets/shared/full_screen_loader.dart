@@ -14,7 +14,7 @@ class FullScreenLoader extends StatelessWidget {
     ];
 
     return Stream.periodic(
-      const Duration(seconds: 2),
+      const Duration(seconds: 4),
       (step) => messages[step],
     ).take(messages.length);
   }

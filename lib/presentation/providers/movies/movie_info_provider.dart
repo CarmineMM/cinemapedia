@@ -21,7 +21,5 @@ class MovieMapNotifier extends StateNotifier<Map<String, Movie>> {
     final movie = await getMovie(movieId);
 
     state = {...state, movieId: movie};
-
-    print('Movie loaded: $movie');
   }
 }
