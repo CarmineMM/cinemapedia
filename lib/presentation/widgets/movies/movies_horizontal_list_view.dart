@@ -61,7 +61,7 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
               itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return _Slide(movie: widget.movies[index]);
+                return FadeInRight(child: _Slide(movie: widget.movies[index]));
               },
             ),
           ),
@@ -123,6 +123,7 @@ class _Slide extends StatelessWidget {
                 movie.posterPath,
                 fit: BoxFit.cover,
                 width: 150,
+                height: 220,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {
                     return Center(child: CircularProgressIndicator());
