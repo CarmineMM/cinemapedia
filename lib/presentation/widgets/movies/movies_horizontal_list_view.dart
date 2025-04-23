@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/presentation/screens/movies/movie_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -116,7 +117,7 @@ class _Slide extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           context.pushNamed(
-            'movie.find',
+            MovieScreen.routeName,
             pathParameters: {'id': movie.id.toString()},
           );
         },
