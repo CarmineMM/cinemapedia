@@ -34,6 +34,6 @@ class MovieRepositoryImpl implements MoviesRepository {
 
   @override
   Future<List<Movie>> search(String query) {
-    return datasource.search(query);
+    return datasource.search(query.toLowerCase());
   }
 }
