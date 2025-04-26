@@ -24,7 +24,7 @@ class MovieMapper {
         moviedb.posterPath != ''
             ? '$imageBasePath${moviedb.posterPath}'
             : notFoundImage,
-    releaseDate: moviedb.releaseDate,
+    releaseDate: moviedb.releaseDate ?? DateTime.now(),
     title: moviedb.title,
     video: moviedb.video,
     voteAverage: moviedb.voteAverage,

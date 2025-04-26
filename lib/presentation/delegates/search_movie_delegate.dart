@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
@@ -6,11 +9,33 @@ typedef SearchMovieCallback = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMovieCallback onSearch;
+  final StreamController<List<Movie>> debouncedMovies =
+      StreamController.broadcast();
+  Timer? _debounceTimer;
 
   SearchMovieDelegate({required this.onSearch});
 
   @override
   String get searchFieldLabel => 'Buscar Película';
+
+  void _onQueryChanged(String query) {
+    if (query.isEmpty) {
+      debouncedMovies.add([]);
+      return;
+    }
+
+    if (_debounceTimer?.isActive ?? false) _debounceTimer?.cancel();
+
+    _debounceTimer = Timer(const Duration(milliseconds: 400), () async {
+      final movies = await onSearch(query);
+      debouncedMovies.add(movies);
+    });
+  }
+
+  void _cleanStreams() {
+    _debounceTimer?.cancel();
+    debouncedMovies.close();
+  }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -29,7 +54,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      onPressed: () => close(context, null),
+      onPressed: () {
+        _cleanStreams();
+        close(context, null);
+      },
       icon: const Icon(Icons.arrow_back),
     );
   }
@@ -41,8 +69,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return FutureBuilder(
-      future: onSearch(query),
+    _onQueryChanged(query);
+
+    return StreamBuilder(
+      stream: debouncedMovies.stream,
       initialData: [],
       builder: (BuildContext context, snapshot) {
         final movies = snapshot.data ?? [];
@@ -50,39 +80,92 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
         return ListView.builder(
           itemCount: movies.length,
           itemBuilder:
-              (BuildContext context, int index) =>
-                  ListTile(title: _MovieItem(movie: movies[index])),
+              (BuildContext context, int index) => ListTile(
+                title: _MovieItem(
+                  movie: movies[index],
+                  onSelect: (BuildContext context, Movie? movie) {
+                    close(context, movie);
+                    _cleanStreams();
+                  },
+                ),
+              ),
         );
       },
     );
   }
 }
 
+typedef OnSelectMovie = Function(BuildContext context, Movie? movie);
+
 class _MovieItem extends StatelessWidget {
   final Movie movie;
+  final OnSelectMovie onSelect;
 
-  const _MovieItem({required this.movie});
+  const _MovieItem({required this.movie, required this.onSelect});
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).textTheme;
+    // final colors = Theme.of(context).textTheme;
+    final textStyle = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Row(
-        children: [
-          // La imagen
-          SizedBox(
-            width: size.width * 0.2,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(movie.posterPath),
+    return GestureDetector(
+      onTap: () => onSelect(context, movie),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Row(
+          children: [
+            // La imagen
+            SizedBox(
+              width: size.width * 0.2,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  movie.posterPath,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    return FadeIn(child: child);
+                  },
+                ),
+              ),
             ),
-          ),
 
-          // La descripción y titulo
-        ],
+            const SizedBox(width: 10),
+
+            // La descripción y titulo
+            SizedBox(
+              width: size.width * 0.62,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(movie.title, style: textStyle.titleMedium),
+                  Text(
+                    movie.overview.length > 100
+                        ? '${movie.overview.substring(0, 100)}...'
+                        : movie.overview,
+                    maxLines: 3,
+                    style: textStyle.bodySmall,
+                  ),
+
+                  Row(
+                    children: [
+                      Icon(Icons.star_half, color: Colors.yellow.shade800),
+                      const SizedBox(width: 5),
+                      Text(
+                        HumanFormats.number(
+                          movie.voteAverage,
+                          decimalDigits: 1,
+                        ),
+                        style: textStyle.bodyMedium!.copyWith(
+                          color: Colors.yellow.shade900,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
