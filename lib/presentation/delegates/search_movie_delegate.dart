@@ -9,25 +9,21 @@ typedef SearchMovieCallback = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMovieCallback onSearch;
-  final StreamController<List<Movie>> debouncedMovies =
-      StreamController.broadcast();
+  final StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
   Timer? _debounceTimer;
+  List<Movie> initialMovies;
 
-  SearchMovieDelegate({required this.onSearch});
+  SearchMovieDelegate({required this.onSearch, this.initialMovies = const []});
 
   @override
   String get searchFieldLabel => 'Buscar Película';
 
   void _onQueryChanged(String query) {
-    if (query.isEmpty) {
-      debouncedMovies.add([]);
-      return;
-    }
-
     if (_debounceTimer?.isActive ?? false) _debounceTimer?.cancel();
 
     _debounceTimer = Timer(const Duration(milliseconds: 400), () async {
       final movies = await onSearch(query);
+      initialMovies = movies;
       debouncedMovies.add(movies);
     });
   }
@@ -43,10 +39,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       ZoomIn(
         duration: const Duration(milliseconds: 200),
         animate: query.isNotEmpty,
-        child: IconButton(
-          onPressed: () => query = '',
-          icon: const Icon(Icons.clear),
-        ),
+        child: IconButton(onPressed: () => query = '', icon: const Icon(Icons.clear)),
       ),
     ];
   }
@@ -64,16 +57,21 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text('buildResults');
+    return buildResultAndSuggestions();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     _onQueryChanged(query);
 
+    return buildResultAndSuggestions();
+  }
+
+  /// Construye las respuesta de build result
+  Widget buildResultAndSuggestions() {
     return StreamBuilder(
       stream: debouncedMovies.stream,
-      initialData: [],
+      initialData: initialMovies,
       builder: (BuildContext context, snapshot) {
         final movies = snapshot.data ?? [];
 
@@ -151,13 +149,8 @@ class _MovieItem extends StatelessWidget {
                       Icon(Icons.star_half, color: Colors.yellow.shade800),
                       const SizedBox(width: 5),
                       Text(
-                        HumanFormats.number(
-                          movie.voteAverage,
-                          decimalDigits: 1,
-                        ),
-                        style: textStyle.bodyMedium!.copyWith(
-                          color: Colors.yellow.shade900,
-                        ),
+                        HumanFormats.number(movie.voteAverage, decimalDigits: 1),
+                        style: textStyle.bodyMedium!.copyWith(color: Colors.yellow.shade900),
                       ),
                     ],
                   ),

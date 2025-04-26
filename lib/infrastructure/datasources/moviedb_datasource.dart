@@ -21,10 +21,7 @@ class MovieDBDataSource extends MoviesDatasource {
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) async {
     try {
-      final response = await dioAdapter.get(
-        'movie/now_playing',
-        queryParameters: {'page': page},
-      );
+      final response = await dioAdapter.get('movie/now_playing', queryParameters: {'page': page});
 
       return _jsonToMovies(response.data);
     } catch (e) {
@@ -37,10 +34,7 @@ class MovieDBDataSource extends MoviesDatasource {
   @override
   Future<List<Movie>> getPopular({int page = 1}) async {
     try {
-      final response = await dioAdapter.get(
-        'movie/popular',
-        queryParameters: {'page': page},
-      );
+      final response = await dioAdapter.get('movie/popular', queryParameters: {'page': page});
 
       return _jsonToMovies(response.data);
     } catch (e) {
@@ -51,10 +45,7 @@ class MovieDBDataSource extends MoviesDatasource {
   @override
   Future<List<Movie>> getTopRated({int page = 1}) async {
     try {
-      final response = await dioAdapter.get(
-        'movie/top_rated',
-        queryParameters: {'page': page},
-      );
+      final response = await dioAdapter.get('movie/top_rated', queryParameters: {'page': page});
 
       return _jsonToMovies(response.data);
     } catch (e) {
@@ -65,10 +56,7 @@ class MovieDBDataSource extends MoviesDatasource {
   @override
   Future<List<Movie>> getUpcoming({int page = 1}) async {
     try {
-      final response = await dioAdapter.get(
-        'movie/upcoming',
-        queryParameters: {'page': page},
-      );
+      final response = await dioAdapter.get('movie/upcoming', queryParameters: {'page': page});
 
       return _jsonToMovies(response.data);
     } catch (e) {
@@ -93,6 +81,8 @@ class MovieDBDataSource extends MoviesDatasource {
 
   @override
   Future<List<Movie>> search(String query) async {
+    if (query == '') return [];
+
     final response = await dioAdapter.get(
       '/search/movie',
       queryParameters: {'query': query, 'language': 'es-MX'},
