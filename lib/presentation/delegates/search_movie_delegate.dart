@@ -10,6 +10,7 @@ typedef SearchMovieCallback = Future<List<Movie>> Function(String query);
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMovieCallback onSearch;
   final StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
+  final StreamController<bool> isLoadingStream = StreamController.broadcast();
   Timer? _debounceTimer;
   List<Movie> initialMovies;
 
@@ -19,12 +20,14 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   String get searchFieldLabel => 'Buscar Película';
 
   void _onQueryChanged(String query) {
+    isLoadingStream.add(true);
     if (_debounceTimer?.isActive ?? false) _debounceTimer?.cancel();
 
     _debounceTimer = Timer(const Duration(milliseconds: 400), () async {
       final movies = await onSearch(query);
       initialMovies = movies;
       debouncedMovies.add(movies);
+      isLoadingStream.add(false);
     });
   }
 
@@ -36,10 +39,25 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      ZoomIn(
-        duration: const Duration(milliseconds: 200),
-        animate: query.isNotEmpty,
-        child: IconButton(onPressed: () => query = '', icon: const Icon(Icons.clear)),
+      StreamBuilder(
+        stream: isLoadingStream.stream,
+        initialData: false,
+        builder: (context, snapshot) {
+          if (snapshot.data ?? false) {
+            return SpinPerfect(
+              duration: const Duration(seconds: 1),
+              spins: 5,
+              infinite: true,
+              child: Icon(Icons.refresh),
+            );
+          }
+
+          return FadeIn(
+            duration: const Duration(milliseconds: 200),
+            animate: query.isNotEmpty,
+            child: IconButton(onPressed: () => query = '', icon: const Icon(Icons.clear)),
+          );
+        },
       ),
     ];
   }

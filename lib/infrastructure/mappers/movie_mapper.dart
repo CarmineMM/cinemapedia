@@ -11,20 +11,15 @@ class MovieMapper {
   static Movie movieDBToEntity(MovieMovieDB moviedb) => Movie(
     adult: moviedb.adult,
     backdropPath:
-        moviedb.backdropPath != ''
-            ? '$imageBasePath/${moviedb.backdropPath}'
-            : notFoundImage,
+        moviedb.backdropPath != '' ? '$imageBasePath/${moviedb.backdropPath}' : notFoundImage,
     genreIds: moviedb.genreIds,
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
     originalTitle: moviedb.originalTitle,
     overview: moviedb.overview,
     popularity: moviedb.popularity,
-    posterPath:
-        moviedb.posterPath != ''
-            ? '$imageBasePath${moviedb.posterPath}'
-            : notFoundImage,
-    releaseDate: moviedb.releaseDate ?? DateTime.now(),
+    posterPath: moviedb.posterPath != '' ? '$imageBasePath${moviedb.posterPath}' : notFoundImage,
+    releaseDate: moviedb.releaseDate,
     title: moviedb.title,
     video: moviedb.video,
     voteAverage: moviedb.voteAverage,
@@ -34,19 +29,14 @@ class MovieMapper {
   static Movie movieDetailToEntity(MovieDetails moviedb) => Movie(
     adult: moviedb.adult,
     backdropPath:
-        moviedb.backdropPath != ''
-            ? '$imageBasePath/${moviedb.backdropPath}'
-            : notFoundImage,
+        moviedb.backdropPath != '' ? '$imageBasePath/${moviedb.backdropPath}' : notFoundImage,
     genres: moviedb.genres,
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
     originalTitle: moviedb.originalTitle,
     overview: moviedb.overview,
     popularity: moviedb.popularity,
-    posterPath:
-        moviedb.posterPath != ''
-            ? '$imageBasePath${moviedb.posterPath}'
-            : notFoundImage,
+    posterPath: moviedb.posterPath != '' ? '$imageBasePath${moviedb.posterPath}' : notFoundImage,
     releaseDate: moviedb.releaseDate,
     title: moviedb.title,
     video: moviedb.video,
