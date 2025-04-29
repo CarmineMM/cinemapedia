@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const routePath = '/';
+  static const routePath = '/home/:screen';
   static const routeName = 'home';
 
   final StatefulNavigationShell currentChild;
