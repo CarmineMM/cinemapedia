@@ -10,7 +10,7 @@ final appRouter = GoRouter(
   routes: <RouteBase>[
     StatefulShellRoute.indexedStack(
       builder: (context, state, child) {
-        return HomeScreen(childView: child);
+        return HomeScreen(currentChild: child);
       },
       branches: <StatefulShellBranch>[
         StatefulShellBranch(
