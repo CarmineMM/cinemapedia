@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FavoritesView extends StatelessWidget {
+  static const String routePath = '/favorites';
+  static const String routeName = 'favorites';
+
   const FavoritesView({super.key});
 
   @override
