@@ -8,29 +8,38 @@ import 'package:go_router/go_router.dart';
 final appRouter = GoRouter(
   initialLocation: HomeScreen.routePath,
   routes: <RouteBase>[
-    ShellRoute(
+    StatefulShellRoute.indexedStack(
       builder: (context, state, child) {
         return HomeScreen(childView: child);
       },
-      routes: [
-        GoRoute(
-          path: HomeScreen.routePath,
-          name: HomeScreen.routeName,
-          builder: (context, state) => const HomeView(),
-          routes: [
+      branches: <StatefulShellBranch>[
+        StatefulShellBranch(
+          routes: <RouteBase>[
             GoRoute(
-              name: MovieScreen.routeName,
-              path: MovieScreen.routePath,
-              builder:
-                  (BuildContext context, GoRouterState state) =>
-                      MovieScreen(movieId: state.pathParameters['id'] ?? 'no-id'),
+              path: HomeScreen.routePath,
+              name: HomeScreen.routeName,
+              builder: (context, state) => const HomeView(),
+              routes: [
+                GoRoute(
+                  name: MovieScreen.routeName,
+                  path: MovieScreen.routePath,
+                  builder:
+                      (BuildContext context, GoRouterState state) =>
+                          MovieScreen(movieId: state.pathParameters['id'] ?? 'no-id'),
+                ),
+              ],
             ),
           ],
         ),
-        GoRoute(
-          path: FavoritesView.routePath,
-          name: FavoritesView.routeName,
-          builder: (context, state) => const FavoritesView(),
+
+        StatefulShellBranch(
+          routes: <RouteBase>[
+            GoRoute(
+              path: FavoritesView.routePath,
+              name: FavoritesView.routeName,
+              builder: (context, state) => const FavoritesView(),
+            ),
+          ],
         ),
       ],
     ),

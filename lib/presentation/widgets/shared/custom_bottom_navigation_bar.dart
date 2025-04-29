@@ -4,24 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({super.key});
+  final StatefulNavigationShell currentChild;
 
-  void onItemTapped(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        context.pushNamed(HomeScreen.routeName);
-        break;
-      case 2:
-        context.pushNamed(FavoritesView.routeName);
-        break;
-    }
-  }
+  const CustomBottomNavigationBar({super.key, required this.currentChild});
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       elevation: 0,
-      onTap: (value) => onItemTapped(context, value),
+      currentIndex: currentChild.currentIndex,
+      onTap: (value) => currentChild.goBranch(value),
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home_max), label: 'Inicio'),
         BottomNavigationBarItem(icon: Icon(Icons.label_outline), label: 'Categorías'),
