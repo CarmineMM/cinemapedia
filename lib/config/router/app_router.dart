@@ -12,17 +12,16 @@ final appRouter = GoRouter(
       name: HomeScreen.routeName,
       path: HomeScreen.routePath,
       builder: (BuildContext context, GoRouterState state) {
-        return HomeScreen(pageIndex: int.parse(state.pathParameters['page'] ?? '0'));
+        final screenValue = state.pathParameters['screen'] ?? '0';
+        return HomeScreen(pageIndex: int.tryParse(screenValue) ?? 0);
       },
-      routes: [
-        GoRoute(
-          name: MovieScreen.routeName,
-          path: MovieScreen.routePath,
-          builder:
-              (BuildContext context, GoRouterState state) =>
-                  MovieScreen(movieId: state.pathParameters['id'] ?? 'no-id'),
-        ),
-      ],
+    ),
+    GoRoute(
+      name: MovieScreen.routeName,
+      path: MovieScreen.routePath,
+      builder:
+          (BuildContext context, GoRouterState state) =>
+              MovieScreen(movieId: state.pathParameters['id'] ?? 'no-id'),
     ),
   ],
 );

@@ -1,3 +1,4 @@
+import 'package:cinemapedia/presentation/screens/movies/home_screen.dart';
 import 'package:cinemapedia/presentation/screens/movies/movie_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -5,14 +6,16 @@ import 'package:go_router/go_router.dart';
 class CustomBottomNavigationBar extends StatelessWidget {
   // final StatefulNavigationShell currentChild;
   final int currentIndex;
+  final List<Widget> viewRoutes;
 
-  const CustomBottomNavigationBar({super.key, required this.currentIndex});
+  const CustomBottomNavigationBar({
+    super.key,
+    required this.currentIndex,
+    required this.viewRoutes,
+  });
 
   void onItemTapped(BuildContext context, int index) {
-     context.pushNamed(
-            MovieScreen.routeName,
-            pathParameters: {'id': movie.id.toString()},
-          );
+    context.go(HomeScreen.routePath.replaceFirst(':screen', index.toString()));
   }
 
   @override

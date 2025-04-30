@@ -22,7 +22,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(index: pageIndex, children: viewRoutes),
-      bottomNavigationBar: CustomBottomNavigationBar(currentIndex: pageIndex),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: pageIndex,
+        viewRoutes: viewRoutes,
+      ),
     );
   }
 }
