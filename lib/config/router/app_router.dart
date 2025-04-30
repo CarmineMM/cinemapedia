@@ -11,7 +11,9 @@ final appRouter = GoRouter(
     GoRoute(
       name: HomeScreen.routeName,
       path: HomeScreen.routePath,
-      builder: (BuildContext context, GoRouterState state) => HomeScreen(),
+      builder: (BuildContext context, GoRouterState state) {
+        return HomeScreen(pageIndex: int.parse(state.pathParameters['page'] ?? '0'));
+      },
       routes: [
         GoRoute(
           name: MovieScreen.routeName,
