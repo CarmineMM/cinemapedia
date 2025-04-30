@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 final appRouter = GoRouter(
   initialLocation: HomeScreen.routePath,
   routes: <RouteBase>[
+    GoRoute(path: '/', redirect: (_, __) => '/home/0'),
+
     // Rutas padre e hijo
     GoRoute(
       name: HomeScreen.routeName,
@@ -15,13 +17,15 @@ final appRouter = GoRouter(
         final screenValue = state.pathParameters['screen'] ?? '0';
         return HomeScreen(pageIndex: int.tryParse(screenValue) ?? 0);
       },
-    ),
-    GoRoute(
-      name: MovieScreen.routeName,
-      path: MovieScreen.routePath,
-      builder:
-          (BuildContext context, GoRouterState state) =>
-              MovieScreen(movieId: state.pathParameters['id'] ?? 'no-id'),
+      routes: [
+        GoRoute(
+          name: MovieScreen.routeName,
+          path: MovieScreen.routePath,
+          builder:
+              (BuildContext context, GoRouterState state) =>
+                  MovieScreen(movieId: state.pathParameters['id'] ?? 'no-id'),
+        ),
+      ],
     ),
   ],
 );

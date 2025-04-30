@@ -20,8 +20,7 @@ class MoviesHorizontalListView extends StatefulWidget {
   });
 
   @override
-  State<MoviesHorizontalListView> createState() =>
-      _MoviesHorizontalListViewState();
+  State<MoviesHorizontalListView> createState() => _MoviesHorizontalListViewState();
 }
 
 class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
@@ -34,8 +33,7 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
     _scrollController.addListener(() {
       if (widget.loadNextPage == null) return;
 
-      if ((_scrollController.position.pixels + 230) >=
-              _scrollController.position.maxScrollExtent &&
+      if ((_scrollController.position.pixels + 230) >= _scrollController.position.maxScrollExtent &&
           widget.loadNextPage != null) {
         widget.loadNextPage!();
       }
@@ -118,7 +116,7 @@ class _Slide extends StatelessWidget {
         onTap: () {
           context.pushNamed(
             MovieScreen.routeName,
-            pathParameters: {'id': movie.id.toString()},
+            pathParameters: {'id': movie.id.toString(), 'screen': '2'},
           );
         },
         child: Column(
@@ -145,11 +143,7 @@ class _Slide extends StatelessWidget {
             const SizedBox(height: 5),
             SizedBox(
               width: 150,
-              child: Text(
-                movie.title,
-                maxLines: 2,
-                style: textTheme.titleSmall,
-              ),
+              child: Text(movie.title, maxLines: 2, style: textTheme.titleSmall),
             ),
 
             SizedBox(
@@ -160,17 +154,12 @@ class _Slide extends StatelessWidget {
                   const SizedBox(width: 3),
                   Text(
                     movie.voteAverage.round().toString(),
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: Colors.yellow.shade900,
-                    ),
+                    style: textTheme.bodyMedium?.copyWith(color: Colors.yellow.shade900),
                   ),
 
                   const Spacer(),
 
-                  Text(
-                    HumanFormats.number(movie.popularity),
-                    style: textTheme.bodySmall,
-                  ),
+                  Text(HumanFormats.number(movie.popularity), style: textTheme.bodySmall),
                 ],
               ),
             ),

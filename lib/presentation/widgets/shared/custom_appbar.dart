@@ -44,7 +44,7 @@ class CustomAppBar extends ConsumerWidget {
 
                   context.pushNamed(
                     MovieScreen.routeName,
-                    pathParameters: {'id': movie.id.toString()},
+                    pathParameters: {'id': movie.id.toString(), 'screen': '0'},
                   );
                 },
                 icon: const Icon(Icons.search),

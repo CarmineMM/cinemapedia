@@ -147,11 +147,7 @@ class _MovieDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      movie.title,
-                      style: textStyle.titleLarge,
-                      textAlign: TextAlign.left,
-                    ),
+                    Text(movie.title, style: textStyle.titleLarge, textAlign: TextAlign.left),
                     Text(movie.overview),
                   ],
                 ),
@@ -170,9 +166,7 @@ class _MovieDetails extends StatelessWidget {
                   margin: const EdgeInsets.only(right: 10),
                   child: Chip(
                     label: Text(gender.name),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   ),
                 ),
               ),
