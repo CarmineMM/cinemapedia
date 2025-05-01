@@ -133,7 +133,7 @@ class _CustomGradient extends StatelessWidget {
   final List<Color> colors;
 
   const _CustomGradient({
-    required this.begin,
+    this.begin = Alignment.centerLeft,
     this.end = Alignment.centerRight,
     required this.stops,
     required this.colors,
