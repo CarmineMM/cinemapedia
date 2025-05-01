@@ -1,10 +1,18 @@
 import 'package:cinemapedia/infrastructure/models/moviedb/movie_details.dart';
+import 'package:isar/isar.dart';
+part 'movie.g.dart';
 
+@collection
 class Movie {
+  Id? localId; // you can also use id = null to auto increment
+
   final bool adult;
   final String backdropPath;
   final List<int> genreIds;
+
+  @ignore
   final List<Genre> genres;
+
   final int id;
   final String originalLanguage;
   final String originalTitle;
