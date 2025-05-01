@@ -1,6 +1,5 @@
 import 'package:cinemapedia/presentation/screens/movies/movie_screen.dart';
 import 'package:cinemapedia/presentation/screens/screens.dart';
-import 'package:cinemapedia/presentation/views/home_views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
