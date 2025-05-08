@@ -1,10 +1,11 @@
 import 'package:cinemapedia/infrastructure/models/moviedb/movie_details.dart';
 import 'package:isar/isar.dart';
+
 part 'movie.g.dart';
 
 @collection
 class Movie {
-  Id? localId; // you can also use id = null to auto increment
+  Id? localId = Isar.autoIncrement;
 
   final bool adult;
   final String backdropPath;
