@@ -70,7 +70,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     final AsyncValue isFavoriteFuture = ref.watch(isFavoriteProvider(movie));
-    final favoriteProvider = ref.watch(favoriteMoviesProvider.notifier);
+    // final favoriteProvider = ref.watch(favoriteMoviesProvider.notifier);
 
     return SliverAppBar(
       backgroundColor: Colors.black,
@@ -79,7 +79,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
       actions: [
         IconButton(
           onPressed: () async {
-            favoriteProvider.toggleFavorite(movie);
+            await ref.read(favoriteMoviesProvider.notifier).toggleFavorite(movie);
+            // await ref.read(localStorageRepositoryProvider).toggleFavorite(movie);
+            ref.invalidate(isFavoriteProvider(movie));
           },
           icon: isFavoriteFuture.when(
             data:
