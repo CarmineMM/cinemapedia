@@ -3,6 +3,7 @@ import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/screens/movies/movie_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:math';
 
 class MoviePosterLink extends StatelessWidget {
   final Movie movie;
@@ -11,15 +12,20 @@ class MoviePosterLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap:
-          () => context.pushNamed(
-            MovieScreen.routeName,
-            pathParameters: {'id': movie.id.toString(), 'screen': '2'},
-          ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: FadeInUp(child: Image.network(movie.posterPath, fit: BoxFit.cover)),
+    final random = Random();
+
+    return FadeInUp(
+      delay: Duration(milliseconds: 200 + random.nextInt(500)),
+      child: GestureDetector(
+        onTap:
+            () => context.pushNamed(
+              MovieScreen.routeName,
+              pathParameters: {'id': movie.id.toString(), 'screen': '2'},
+            ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(movie.posterPath, fit: BoxFit.cover),
+        ),
       ),
     );
   }

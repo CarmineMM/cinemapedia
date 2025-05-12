@@ -3,6 +3,7 @@ import 'package:cinemapedia/domain/entities/actor.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/actors/actors_by_movie_provider.dart';
 import 'package:cinemapedia/presentation/providers/movies/movie_info_provider.dart';
+import 'package:cinemapedia/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:cinemapedia/presentation/providers/storage/local_storage_provider.dart';
 import 'package:cinemapedia/presentation/widgets/shared/full_screen_loader.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     final AsyncValue isFavoriteFuture = ref.watch(isFavoriteProvider(movie));
+    final favoriteProvider = ref.watch(favoriteMoviesProvider.notifier);
 
     return SliverAppBar(
       backgroundColor: Colors.black,
@@ -77,8 +79,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
       actions: [
         IconButton(
           onPressed: () async {
-            await ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
-            ref.invalidate(isFavoriteProvider(movie));
+            favoriteProvider.toggleFavorite(movie);
           },
           icon: isFavoriteFuture.when(
             data:
