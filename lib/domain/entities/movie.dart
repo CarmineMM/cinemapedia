@@ -5,6 +5,7 @@ part 'movie.g.dart';
 
 @collection
 class Movie {
+  /// ID manejado por Isar
   Id? localId = Isar.autoIncrement;
 
   final bool adult;
