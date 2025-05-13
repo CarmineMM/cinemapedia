@@ -35,6 +35,7 @@ class MoviesSlideshow extends StatelessWidget {
   }
 }
 
+/// Muestra la Imagen
 class _Slide extends StatelessWidget {
   final Movie movie;
 
@@ -42,9 +43,7 @@ class _Slide extends StatelessWidget {
 
   BoxDecoration get decoration => BoxDecoration(
     borderRadius: BorderRadius.circular(20),
-    boxShadow: const [
-      BoxShadow(color: Colors.black45, blurRadius: 10, offset: Offset(0, 5)),
-    ],
+    boxShadow: const [BoxShadow(color: Colors.black45, blurRadius: 10, offset: Offset(0, 5))],
   );
 
   @override
@@ -57,21 +56,12 @@ class _Slide extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           child: GestureDetector(
             onTap: () {
-              context.pushNamed(
-                MovieScreen.routeName,
-                pathParameters: {'id': movie.id.toString()},
-              );
+              context.pushNamed(MovieScreen.routeName, pathParameters: {'id': movie.id.toString()});
             },
-            child: Image.network(
-              movie.backdropPath,
+            child: FadeInImage(
               fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return FadeIn(child: child);
-
-                return const Center(
-                  child: CircularProgressIndicator(color: Colors.white70),
-                );
-              },
+              placeholder: const AssetImage('assets/loaders/bottle-loader.gif'),
+              image: NetworkImage(movie.backdropPath),
             ),
           ),
         ),
