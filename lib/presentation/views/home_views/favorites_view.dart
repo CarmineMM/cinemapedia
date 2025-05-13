@@ -43,7 +43,10 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Favoritos')),
-      body: MoviesMasonry(movies: favoriteMovies, onLoadNextPage: loadNextPage),
+      body:
+          favoriteMovies.isEmpty
+              ? const Center(child: Text('No hay favoritos agregados'))
+              : MoviesMasonry(movies: favoriteMovies, onLoadNextPage: loadNextPage),
     );
   }
 }
